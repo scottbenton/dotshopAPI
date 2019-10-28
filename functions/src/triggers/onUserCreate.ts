@@ -7,7 +7,7 @@ const DEFAULT_USER_OPTIONS = {
   projects: []
 }
 
-exports.onUserCreate = functions.auth.user().onCreate(async user => {
+export const onUserCreate = functions.auth.user().onCreate(async user => {
   const uid = user.uid;
 
   await db.collection('users').doc(uid).set(DEFAULT_USER_OPTIONS);

@@ -3,6 +3,8 @@ import * as bodyParser from 'body-parser';
 import * as functions from 'firebase-functions';
 import { initDb } from './db';
 
+import * as triggers from './triggers';
+
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const routes = require('./routes');
@@ -33,3 +35,4 @@ main.use('/v1', routes);
 // // webApi is your functions name, and you will pass main as
 // // a parameter
 export const api = functions.https.onRequest(main);
+export { triggers };
