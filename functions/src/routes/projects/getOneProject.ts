@@ -1,4 +1,4 @@
-import { getDb } from "../../db";
+import { getDb } from "../config/db";
 const db = getDb();
 
 module.exports = async (req: any, res: any) => {

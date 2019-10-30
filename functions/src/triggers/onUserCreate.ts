@@ -1,6 +1,6 @@
 
 import * as functions from 'firebase-functions';
-import { getDb } from '../db';
+import { getDb } from '../routes/config/db';
 const db = getDb();
 
 const DEFAULT_USER_OPTIONS = {
