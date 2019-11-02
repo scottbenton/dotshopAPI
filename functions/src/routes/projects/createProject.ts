@@ -12,7 +12,7 @@ module.exports = async (req: any, res: any) => {
 
     const uid = await getUIDFromToken(req);
 
-    const data = { name };
+    const data = req.body;
     const ref = await db.collection('projects').add(data);
 
     const userRef = db.collection('users').doc(uid);

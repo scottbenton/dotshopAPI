@@ -15,6 +15,10 @@ require('dotenv').config();
 
 const main = express();
 main.use(cors({ origin: true }));
+main.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 initDb();
 
