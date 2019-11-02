@@ -9,19 +9,31 @@ module.exports = async (req: any, res: any) => {
     const userSnapshot = await db.collection('users').doc(uid).get();
     const user = userSnapshot.data();
 
-    let projects: any = [];
+    let responsePromises: any = [];
+    user.projects.forEach((projectID: string) => {
+      responsePromises.push({ id: projectID, dataSnapshot: db.collection('projects').doc(projectID).get() });
+    })
 
-    await user.projects.forEach(async (projId: any) => {
-      const projectSnapshot = await db.collection('projects').doc(projId).get();
-      const project = projectSnapshot.data();
+    let promises = responsePromises.map((resp: any) => resp.dataSnapshot);
+    console.log(promises);
+    Promise.all(promises).then((values) => {
+      console.log(values);
+      let responseProjects: any = [];
+      values.forEach((projectSnapshot: any, index: number) => {
+        console.log(projectSnapshot);
+        const project = projectSnapshot.data();
+        if (project) {
+          responseProjects.push({
+            id: responsePromises[index].id,
+            name: project.name,
+            description: project.description
+          });
+        }
+      });
 
-      if (project) {
-        projects.push({
-          name: project.name
-        });
-      }
+      res.status(200).json(responseProjects);
     });
-    res.status(200).json(projects);
+
   }
   catch (e) {
     res.status(400).send({ error: e.message });
