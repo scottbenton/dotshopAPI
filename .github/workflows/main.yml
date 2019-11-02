@@ -11,10 +11,8 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
-      - name: CD into Directory
-        run: cd functions
       - name: Install Dependencies
-        run: npm install
+        run: npm --prefix ./functions install ./functions
       - name: Build
         run: npm run build
       - name: Archive Production Artifact
