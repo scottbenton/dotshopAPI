@@ -5,14 +5,12 @@ const db = getDb();
 module.exports = async (req: any, res: any) => {
   const id = req.params.projectId;
   try {
-    const name = req.body.name;
-    const description = req.body.description;
-    if (!name) throw new Error('Name is required.');
+    const project = req.body;
+    if (!project.name) throw new Error('Name is required.');
 
-    const data = { name, description };
     const docRef = await db.collection('projects').doc(id)
-    if (!docRef) throw new Error('No ')
-    docRef.set(data);
+    if (!docRef) throw new Error('No document found')
+    docRef.set(project);
 
     res.status(200).send("Success!");
   } catch (e) {
