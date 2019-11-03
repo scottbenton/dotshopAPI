@@ -7,13 +7,12 @@ const db = getDb();
 module.exports = async (req: any, res: any) => {
 
   try {
-    const name = req.body.name;
-    if (!name) throw new Error('Name is required.');
+    const project = req.body;
+    if (!project.name) throw new Error('Name is required.');
 
     const uid = await getUIDFromToken(req);
 
-    const data = req.body;
-    const ref = await db.collection('projects').add(data);
+    const ref = await db.collection('projects').add(project);
 
     const userRef = db.collection('users').doc(uid);
     await userRef.update({
@@ -22,7 +21,7 @@ module.exports = async (req: any, res: any) => {
 
     res.json({
       id: ref.id,
-      data
+      project
     });
   } catch (e) {
     res.status(400).send({ error: e.message });
