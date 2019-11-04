@@ -8,15 +8,14 @@ module.exports = async (req: any, res: any) => {
     const movementPromise = db.collection('projects').doc(id).collection('movements').orderBy('index').get();
 
     const projectsSnapshot = await projectsPromise;
+    const movementSnapshot = await movementPromise;
     if (!await projectsSnapshot) {
       throw new Error('Project ' + id + ' not found.')
     }
+
     let project: any = {};
+
     project = projectsSnapshot.data();
-
-
-    const movementSnapshot = await movementPromise;
-
     project.movements = movementSnapshot.data();
     project.id = projectsSnapshot.id;
 
