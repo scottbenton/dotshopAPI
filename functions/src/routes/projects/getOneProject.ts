@@ -13,7 +13,7 @@ module.exports = async (req: any, res: any) => {
       throw new Error('Project ' + id + ' not found.')
     }
     let project: any = {};
-
+    console.log(projectsSnapshot);
     project = projectsSnapshot.data();
 
 
