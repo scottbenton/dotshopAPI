@@ -5,7 +5,7 @@ module.exports = async (req: any, res: any) => {
   const id = req.params.projectId;
   try {
     const projectSnapshot = await db.collection('projects').doc(id).get();
-    const movementSnapshot = await db.collection('projects/' + id + '/movements').orderBy('index').get();
+    const movementSnapshot = await db.collection('projects').doc(id).collection('movements').orderBy('index').get();
 
     if (!projectSnapshot) {
       throw new Error('No project found');
@@ -16,7 +16,13 @@ module.exports = async (req: any, res: any) => {
     project.id = id;
     if (movementSnapshot) {
       console.log(movementSnapshot);
-      project.movements = movementSnapshot.data();
+      let movements: any = {};
+
+      movementSnapshot.forEach((doc: any) => {
+        movements[doc.id] = doc.data();
+      })
+
+      project.movements = movements;
     }
 
     res.status(200).json(project);
