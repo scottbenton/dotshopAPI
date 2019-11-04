@@ -4,19 +4,18 @@ const db = getDb();
 module.exports = async (req: any, res: any) => {
   const id = req.params.projectId;
   try {
-    const projectsSnapshot = db.collection('projects').doc(id).get();
-    const movementSnapshot = db.collection('projects').doc(id).collection('movements').orderBy('index').get();
+    const projectsPromise = db.collection('projects').doc(id).get();
+    const movementPromise = db.collection('projects').doc(id).collection('movements').orderBy('index').get();
 
-    await projectsSnapshot;
-    console.log(await projectsSnapshot);
-    if (!projectsSnapshot) {
+    const projectsSnapshot = await projectsPromise;
+    if (!await projectsSnapshot) {
       throw new Error('Project ' + id + ' not found.')
     }
     let project: any = {};
     project = projectsSnapshot.data();
 
 
-    await movementSnapshot;
+    const movementSnapshot = await movementPromise;
     if (movementSnapshot) {
       project.movements = movementSnapshot.data();
     }
