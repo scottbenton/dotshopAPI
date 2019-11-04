@@ -10,8 +10,8 @@ module.exports = async (req: any, res: any) => {
     const movementSnapshot = await movementPromise;
     const projectsSnapshot = await projectsPromise;
 
-    console.log('Project Snapshot: ' + projectsSnapshot);
-    console.log('Movement Snapshot: ' + movementSnapshot);
+    console.log('Project Snapshot: ' + JSON.stringify(projectsSnapshot));
+    console.log('Movement Snapshot: ' + JSON.stringify(movementSnapshot));
 
     if (!await projectsSnapshot) {
       throw new Error('Project ' + id + ' not found.')
