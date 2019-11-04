@@ -5,7 +5,7 @@ module.exports = async (req: any, res: any) => {
   const id = req.params.projectId;
   try {
     const projectSnapshot = await db.collection('projects').doc(id).get();
-    const movementSnapshot = await db.collection('projects').doc(id).collection('movements').get();
+    const movementSnapshot = await db.collection('projects/' + id + '/movements').orderBy('index').get();
 
     if (!projectSnapshot) {
       throw new Error('No project found');
