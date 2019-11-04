@@ -16,10 +16,8 @@ module.exports = async (req: any, res: any) => {
 
 
     const movementSnapshot = await movementPromise;
-    if (movementSnapshot) {
-      project.movements = movementSnapshot.data();
-    }
 
+    project.movements = movementSnapshot.data();
     project.id = projectsSnapshot.id;
 
     res.status(200).json(project);
